@@ -17,7 +17,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const mongoURI =
-    'mongodb+srv://m032310015:LabTest1234@asrikizi.xapllsm.mongodb.net/MyKebun?retryWrites=true&w=majority';
+    'mongodb+srv://asrikizi:dev_BizKebun@bizkebun.yqvxi0r.mongodb.net/bizkebun?retryWrites=true&w=majority';
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
