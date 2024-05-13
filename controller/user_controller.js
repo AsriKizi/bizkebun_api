@@ -10,7 +10,7 @@ async function registerUser(req, res) {
             userName, userPhone, userPwd, userRole,
         });
         const savedUser = await newUser.save();
-        res.status(201).json({ message: 'Register successful', savedUser });
+        res.status(200).json({ message: 'Register successful', savedUser });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -34,7 +34,7 @@ async function loginUser(req, res) {
         }
         if (requestedUser && isPasswordValid) {
             const token = auth.generateToken({ userName: requestedUser.userName, userId: requestedUser._id });
-            res.status(201).json({ message: 'Login successful', requestedUser , token});
+            res.status(200).json({ message: 'Login successful', requestedUser , token});
         }
     } catch (error) {
         console.error(error);

@@ -16,7 +16,7 @@ async function addBooking(req, res) {
         //create booking
         const savedBooking = await newBooking.save();
         if (savedBooking) {
-            res.status(201).json({ message: 'Add booking successful', savedBooking });
+            res.status(200).json({ message: 'Add booking successful', savedBooking });
         }
     } catch (error) {
         console.error(error);
@@ -48,7 +48,7 @@ async function updateBooking(req, res) {
                 { new: true });
 
             if (updatedItem) {
-                res.status(201).json({ message: 'Update booking successful', updateBooking, updatedItem, rejectionreason: rejectionreason });
+                res.status(200).json({ message: 'Update booking successful', updateBooking, updatedItem, rejectionreason: rejectionreason });
             }
         } else {
             if (updateBooking) {
@@ -68,7 +68,7 @@ async function getBookingByItemId(req, res) {
         const { itemId
         } = req.body;
         const booking = await Booking.find({ itemId: itemId });
-        res.status(201).json({data : booking});
+        res.status(200).json({data : booking});
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -82,7 +82,7 @@ async function getBookingByUserId(req, res) {
         const { userId
         } = req.body;
         const booking = await Booking.find({ customerId: userId });
-        res.status(201).json({data : booking});
+        res.status(200).json({data : booking});
     } catch (error) {
         console.error(error);
         res.status(500).json({

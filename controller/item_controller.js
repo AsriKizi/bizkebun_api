@@ -12,7 +12,7 @@ async function addItem(req, res) {
             userId, itemId, itemName, category, price, quantity,
         });
         const savedItem = await newItem.save();
-        res.status(201).json({ message: 'Add item successful', savedItem });
+        res.status(200).json({ message: 'Add item successful', savedItem });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -29,7 +29,7 @@ async function updateItemQty(req, res) {
         const updateItem = await Item.findOneAndUpdate({ itemId: itemId },
             { $set: { quantity } },
             { new: true });
-        res.status(201).json({ message: 'Update item successful', updateItem });
+        res.status(200).json({ message: 'Update item successful', updateItem });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -49,7 +49,7 @@ async function searchItem(req, res) {
             es.status(404).json({ message: 'No item found'});
         }
         if(searchitem){
-            res.status(201).json({ message: 'Search item successful', searchitem });
+            res.status(200).json({ message: 'Search item successful', searchitem });
         }
 
     } catch (error) {
