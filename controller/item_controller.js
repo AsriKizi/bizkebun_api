@@ -49,7 +49,7 @@ async function searchItem(req, res) {
             es.status(404).json({ message: 'No item found'});
         }
         if(searchitem){
-            res.status(200).json({ message: 'Search item successful', searchitem });
+            res.json(item);
         }
 
     } catch (error) {
@@ -63,7 +63,7 @@ async function searchItem(req, res) {
 async function getAllItems(req, res) {
     try {
         const item = await Item.find();
-        res.status(200).json({ message: 'Get all item successful', item});
+        res.json(item);
     } catch (error) {
         console.error(error);
         res.status(500).json({
