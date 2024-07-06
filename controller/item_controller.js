@@ -63,7 +63,7 @@ async function searchItem(req, res) {
 async function getAllItems(req, res) {
     try {
         const item = await Item.find();
-        res.json(item);
+        res.status(200).json({ message: 'Get all item successful', item});
     } catch (error) {
         console.error(error);
         res.status(500).json({
