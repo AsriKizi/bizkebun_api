@@ -49,7 +49,7 @@ async function searchItem(req, res) {
             es.status(404).json({ message: 'No item found'});
         }
         if(searchitem){
-            res.json(item);
+            res.json(searchitem);
         }
 
     } catch (error) {
