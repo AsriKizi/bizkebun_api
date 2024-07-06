@@ -43,7 +43,7 @@ async function searchItem(req, res) {
         const { itemName,
         } = req.body;
 
-        const searchitem = await Item.find({ itemName: itemName });
+        const searchitem = await Item.find({ category: itemName });
 
         if (!searchitem||searchitem.length==0){
             es.status(404).json({ message: 'No item found'});
