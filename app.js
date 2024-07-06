@@ -26,6 +26,7 @@ mongoose.connect(mongoURI, {
 // app use
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // verify token
 const authenticateToken = async (req, res, next) => {
