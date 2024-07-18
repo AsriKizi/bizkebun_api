@@ -1,5 +1,39 @@
 const User = require('../model/user_model');
 const auth = require('./auth_controller');
+const UserDetail = require('../model/userdetail_model');
+
+async function addUserDetails(req, res) {
+    try {
+        const {
+            userId, statusUser, businessName, dateBirth, bio,
+            address1, address2, latitude, longitude, usingws, userImage
+        } = req.body;
+        const searchuser = await UserDetail.find({ userId: userId });
+        if (!searchuser||searchuser.length==0) {
+            const userDetails = new UserDetail({
+                userId, statusUser, businessName, dateBirth, bio,
+                address1, address2, latitude, longitude, usingws, userImage
+            });
+            await userDetails.save();
+            res.status(200).json({ message: 'User details added successfully', data: userDetails });
+        } else {
+            const userDetails = await UserDetail.findOneAndUpdate({
+                userId: userId
+            }, {
+                $set: {
+                    statusUser, businessName, dateBirth, bio,
+                    address1, address2, latitude, longitude, usingws, userImage
+                }
+            },
+                { new: true });
+            await userDetails.save();
+            res.status(200).json({ message: 'User details added successfully', data: userDetails });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 async function registerUser(req, res) {
     try {
@@ -23,7 +57,7 @@ async function loginUser(req, res) {
     try {
         const { userName, userPwd,
         } = req.body;
-        console.log('username :',userName);
+        console.log('username :', userName);
         const requestedUser = await User.findOne({ userName: userName });
         if (!requestedUser) {
             res.status(401).json({ error: 'Username not found' });
@@ -34,7 +68,7 @@ async function loginUser(req, res) {
         }
         if (requestedUser && isPasswordValid) {
             const token = auth.generateToken({ userName: requestedUser.userName, userId: requestedUser._id });
-            res.status(200).json({ message: 'Login successful', requestedUser , token});
+            res.status(200).json({ message: 'Login successful', requestedUser, token });
         }
     } catch (error) {
         console.error(error);
@@ -60,4 +94,5 @@ module.exports = {
     registerUser,
     loginUser,
     getAllUsers,
+    addUserDetails,
 };

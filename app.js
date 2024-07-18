@@ -11,6 +11,7 @@ const itemController =
 const bookingController =
     require('./controller/booking_controller');
 const auth = require('./controller/auth_controller');
+const setupController = require('./controller/setup_controller');
 
 // db connection
 const app = express();
@@ -47,6 +48,7 @@ const authenticateToken = async (req, res, next) => {
 app.post('/register', userController.registerUser);
 app.post('/login', userController.loginUser);
 app.get('/allusers', userController.getAllUsers);
+app.post('/addUserDetails', authenticateToken, userController.addUserDetails);
 
 // item
 app.post('/additem', authenticateToken, itemController.addItem);
@@ -59,6 +61,14 @@ app.post('/addbooking', authenticateToken, bookingController.addBooking);
 app.post('/updatebooking', authenticateToken, bookingController.updateBooking);
 app.post('/getbookingbyitemid', authenticateToken, bookingController.getBookingByItemId);
 app.post('/getbookingbyuserid', authenticateToken, bookingController.getBookingByUserId);
+app.post('/deleteBookingById', authenticateToken, bookingController.deleteBookingById);
+
+// setup
+app.post('/addunit', setupController.addUnit);
+app.get('/unit', setupController.getUnit);
+app.post('/addcroptype', setupController.addCropType);
+app.get('/croptype', setupController.getCropType);
+app.get('/news', setupController.getNews);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

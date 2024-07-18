@@ -4,14 +4,14 @@ const Item = require('../model/item_model');
 async function addBooking(req, res) {
     try {
         const {
-            customerId, customerName, requestDate, price, quantity, totalPrice, itemId
+            customerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
         } = req.body;
         const currentDatetime = new Date();
         const formattedDatetime = currentDatetime.toISOString().replace(/[-T:.Z]/g, ''); // Format: YYYYMMDDHHmmss
         const bookingId = `${customerName}${formattedDatetime}`;
         const bookingStatus = 0;
         const newBooking = new Booking({
-            bookingId, bookingStatus, customerId, customerName, requestDate, price, quantity, totalPrice, itemId
+            bookingId, bookingStatus, customerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
         });
         //create booking
         const savedBooking = await newBooking.save();
@@ -63,12 +63,27 @@ async function updateBooking(req, res) {
     }
 }
 
+async function deleteBookingById(req, res) {
+    try {
+        const { itemId } = req.body;
+        const deletedBooking = await Booking.findByIdAndDelete(itemId);
+
+        if (!deletedBooking) {
+            return res.status(404).json({ error: 'Booking not found' });
+        }
+        res.status(200).json({ message: 'Booking deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 async function getBookingByItemId(req, res) {
     try {
         const { itemId
         } = req.body;
         const booking = await Booking.find({ itemId: itemId });
-        res.status(200).json({data : booking});
+        res.status(200).json({ data: booking });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -82,7 +97,7 @@ async function getBookingByUserId(req, res) {
         const { userId
         } = req.body;
         const booking = await Booking.find({ customerId: userId });
-        res.status(200).json({data : booking});
+        res.status(200).json({ data: booking });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -96,4 +111,5 @@ module.exports = {
     updateBooking,
     getBookingByItemId,
     getBookingByUserId,
+    deleteBookingById,
 };

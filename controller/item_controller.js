@@ -3,13 +3,13 @@ const Item = require('../model/item_model');
 async function addItem(req, res) {
     try {
         const {
-            userId, itemName, category, price, quantity,
+            userId, itemName, category, pricePerQuantity, pricePerUnit, quantity, quantityUnit, harvestDate, itemImage,
         } = req.body;
         const currentDatetime = new Date();
         const formattedDatetime = currentDatetime.toISOString().replace(/[-T:.Z]/g, ''); // Format: YYYYMMDDHHmmss
         const itemId = `${itemName}${formattedDatetime}`;
         const newItem = new Item({
-            userId, itemId, itemName, category, price, quantity,
+            userId, itemId, itemName, category, pricePerQuantity, pricePerUnit, quantity, quantityUnit, harvestDate, itemImage,
         });
         const savedItem = await newItem.save();
         res.status(200).json({ message: 'Add item successful', savedItem });
@@ -45,10 +45,10 @@ async function searchItem(req, res) {
 
         const searchitem = await Item.find({ category: itemName });
 
-        if (!searchitem||searchitem.length==0){
-            res.status(404).json({ message: 'No item found'});
+        if (!searchitem || searchitem.length == 0) {
+            res.status(404).json({ message: 'No item found' });
         }
-        if(searchitem){
+        if (searchitem) {
             res.json(searchitem);
         }
 
