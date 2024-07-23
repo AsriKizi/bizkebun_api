@@ -9,7 +9,7 @@ async function addUserDetails(req, res) {
             address1, address2, latitude, longitude, usingws, userImage
         } = req.body;
         const searchuser = await UserDetail.find({ userId: userId });
-        if (!searchuser||searchuser.length==0) {
+        if (!searchuser || searchuser.length == 0) {
             const userDetails = new UserDetail({
                 userId, statusUser, businessName, dateBirth, bio,
                 address1, address2, latitude, longitude, usingws, userImage
@@ -61,15 +61,17 @@ async function loginUser(req, res) {
         const requestedUser = await User.findOne({ userPhone: userPhone });
         if (!requestedUser) {
             res.status(401).json({ error: 'userPhone not found' });
+        } else {
+            const isPasswordValid = await requestedUser.comparePassword(userPwd);
+            if (!isPasswordValid) {
+                res.status(401).json({ error: 'Invalid password' });
+            }
+            if (requestedUser && isPasswordValid) {
+                const token = auth.generateToken({ userPhone: requestedUser.userPhone, userId: requestedUser._id });
+                res.status(200).json({ message: 'Login successful', requestedUser, token });
+            }
         }
-        const isPasswordValid = await requestedUser.comparePassword(userPwd);
-        if (!isPasswordValid) {
-            res.status(401).json({ error: 'Invalid password' });
-        }
-        if (requestedUser && isPasswordValid) {
-            const token = auth.generateToken({ userPhone: requestedUser.userPhone, userId: requestedUser._id });
-            res.status(200).json({ message: 'Login successful', requestedUser, token });
-        }
+
     } catch (error) {
         console.error(error);
         res.status(500).json({
