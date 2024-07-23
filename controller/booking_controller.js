@@ -30,10 +30,10 @@ async function addBooking(req, res) {
 
 async function updateBooking(req, res) {
     try {
-        const { bookingId, bookingStatus, rejectionreason,
+        const { bookingId, bookingStatus, pricePerQuantityOffer, pricePerUnitOffer, reason,
         } = req.body;
         const updateBooking = await Booking.findOneAndUpdate({ bookingId: bookingId },
-            { $set: { bookingStatus } },
+            { $set: { bookingStatus, pricePerQuantityOffer, pricePerUnitOffer, reason, } },
             { new: true });
 
         if (bookingStatus == 1) {
@@ -50,11 +50,11 @@ async function updateBooking(req, res) {
                 { new: true });
 
             if (updatedItem) {
-                res.status(200).json({ message: 'Update booking successful', updateBooking, updatedItem, rejectionreason: rejectionreason });
+                res.status(200).json({ message: 'Update booking successful', updateBooking, updatedItem, reason: reason });
             }
         } else {
             if (updateBooking) {
-                res.status(201).json({ message: 'Update booking successful', updateBooking, rejectionreason: rejectionreason });
+                res.status(201).json({ message: 'Update booking successful', updateBooking, reason: reason });
             }
         }
     } catch (error) {

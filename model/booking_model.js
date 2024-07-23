@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bookingSchema = new mongoose.Schema({
     bookingId: { type: Number, unique: true, required: true },
     customerId: { type: String, required: true },
-    itemId: { type: String, required: true },
+    itemId: { type: Number, required: true },
     bookingStatus: Number,
     customerName: String,
     requestDate: String,
