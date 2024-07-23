@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const croptypeSchema = new mongoose.Schema({
-    typeId: { type: String, required: true, unique: true },
+    typeId: { type: Number, required: true, unique: true },
     typeName: String,
     duration: Number,
 });

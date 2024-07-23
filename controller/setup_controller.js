@@ -7,11 +7,13 @@ async function addUnit(req, res) {
         const {
             unitName,
         } = req.body;
-        const currentDatetime = new Date();
-        const formattedDatetime = currentDatetime.toISOString().replace(/[-T:.Z]/g, '');
-        const unitId = `${unitName}${formattedDatetime}`;
+        const unit = await Unit.find();
+        var unitId = 0;
+        if (unit.length != 0) {
+            unitId = unit[unit.length - 1].unitId + 1;
+        }
         const newUnit = new Unit({
-            unitId, unitName, 
+            unitId, unitName,
         });
         const savedItem = await newUnit.save();
         res.status(200).json({ message: 'Add unit successful', savedItem });
@@ -26,7 +28,7 @@ async function addUnit(req, res) {
 async function getUnit(req, res) {
     try {
         const unit = await Unit.find();
-        res.status(200).json({data : unit});
+        res.status(200).json({ data: unit });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -40,9 +42,11 @@ async function addCropType(req, res) {
         const {
             typeName, duration
         } = req.body;
-        const currentDatetime = new Date();
-        const formattedDatetime = currentDatetime.toISOString().replace(/[-T:.Z]/g, '');
-        const typeId = `${typeName}${formattedDatetime}`;
+        const croptype = await CropType.find();
+        var typeId = 0;
+        if (croptype.length != 0) {
+            typeId = croptype[croptype.length - 1].typeId + 1;
+        }
         const newCropType = new CropType({
             typeId, typeName, duration
         });
@@ -59,7 +63,7 @@ async function addCropType(req, res) {
 async function getCropType(req, res) {
     try {
         const croptype = await CropType.find();
-        res.status(200).json({data : croptype});
+        res.status(200).json({ data: croptype });
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -71,7 +75,7 @@ async function getCropType(req, res) {
 async function getNews(req, res) {
     try {
         const news = await News.find();
-        res.status(200).json({data : news});
+        res.status(200).json({ data: news });
     } catch (error) {
         console.error(error);
         res.status(500).json({

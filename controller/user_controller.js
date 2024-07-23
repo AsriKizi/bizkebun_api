@@ -55,19 +55,19 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
     try {
-        const { userName, userPwd,
+        const { userPhone, userPwd,
         } = req.body;
-        console.log('username :', userName);
-        const requestedUser = await User.findOne({ userName: userName });
+        console.log('userPhone :', userPhone);
+        const requestedUser = await User.findOne({ userPhone: userPhone });
         if (!requestedUser) {
-            res.status(401).json({ error: 'Username not found' });
+            res.status(401).json({ error: 'userPhone not found' });
         }
         const isPasswordValid = await requestedUser.comparePassword(userPwd);
         if (!isPasswordValid) {
             res.status(401).json({ error: 'Invalid password' });
         }
         if (requestedUser && isPasswordValid) {
-            const token = auth.generateToken({ userName: requestedUser.userName, userId: requestedUser._id });
+            const token = auth.generateToken({ userPhone: requestedUser.userPhone, userId: requestedUser._id });
             res.status(200).json({ message: 'Login successful', requestedUser, token });
         }
     } catch (error) {

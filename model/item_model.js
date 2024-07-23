@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
-    itemId: { type: String, required: true, unique: true },
+    itemId: { type: Number, required: true, unique: true },
     userId: { type: String, required: true },
     itemName: String,
-    category: String,
+    category: Number,
     price: Number,
     pricePerQuantity: Number,
-    pricePerUnit: String,
+    pricePerUnit: Number,
     quantity: Number,
-    quantityUnit: String,
+    quantityUnit: Number,
     harvestDate: String,
     itemImage: String,
 });

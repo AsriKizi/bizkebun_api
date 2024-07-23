@@ -6,9 +6,11 @@ async function addBooking(req, res) {
         const {
             customerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
         } = req.body;
-        const currentDatetime = new Date();
-        const formattedDatetime = currentDatetime.toISOString().replace(/[-T:.Z]/g, ''); // Format: YYYYMMDDHHmmss
-        const bookingId = `${customerName}${formattedDatetime}`;
+        const booking = await Booking.find();
+        var bookingId = 0;
+        if (booking.length != 0) {
+            bookingId = booking[booking.length - 1].bookingId + 1;
+        }
         const bookingStatus = 0;
         const newBooking = new Booking({
             bookingId, bookingStatus, customerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,

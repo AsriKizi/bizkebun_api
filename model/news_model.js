@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const newsSchema = new mongoose.Schema({
-    newsId: { type: String, required: true, unique: true },
+    newsId: { type: Number, required: true, unique: true },
     newsName: String,
     newsURL: String,
 });

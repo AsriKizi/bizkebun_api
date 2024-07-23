@@ -5,9 +5,11 @@ async function addItem(req, res) {
         const {
             userId, itemName, category, pricePerQuantity, pricePerUnit, quantity, quantityUnit, harvestDate, itemImage,
         } = req.body;
-        const currentDatetime = new Date();
-        const formattedDatetime = currentDatetime.toISOString().replace(/[-T:.Z]/g, ''); // Format: YYYYMMDDHHmmss
-        const itemId = `${itemName}${formattedDatetime}`;
+        const item = await Item.find();
+        var itemId = 0;
+        if (croptype.length != 0) {
+            itemId = item[item.length - 1].itemId + 1;
+        }
         const newItem = new Item({
             userId, itemId, itemName, category, pricePerQuantity, pricePerUnit, quantity, quantityUnit, harvestDate, itemImage,
         });

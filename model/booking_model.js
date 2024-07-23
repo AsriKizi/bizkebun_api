@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const bookingSchema = new mongoose.Schema({
-    bookingId: { type: String, unique: true, required: true },
+    bookingId: { type: Number, unique: true, required: true },
     customerId: { type: String, required: true },
     itemId: { type: String, required: true },
     bookingStatus: Number,
@@ -9,12 +9,12 @@ const bookingSchema = new mongoose.Schema({
     requestDate: String,
     price: Number,
     pricePerQuantity: Number,
-    pricePerUnit: String,
+    pricePerUnit: Number,
     quantity: Number,
-    quantityUnit: String,
+    quantityUnit: Number,
     priceOffer: Number,
     pricePerQuantityOffer: Number,
-    pricePerUnitOffer: String,
+    pricePerUnitOffer: Number,
     reason: String,
 });
 
