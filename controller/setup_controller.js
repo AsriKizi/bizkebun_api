@@ -44,7 +44,7 @@ async function addCropType(req, res) {
         } = req.body;
         const croptype = await CropType.find();
         let typeId = 0;
-        if (croptype.length !== 0) {
+        if (croptype.length != 0) {
             typeId = croptype[croptype.length - 1].typeId + 1;
         }
         const newCropType = new CropType({
@@ -69,7 +69,7 @@ async function addPriceToCropType(typeId, year, price) {
         if (!crop) {
             throw new Error('CropType not found');
         }
-        const yearData = crop.harga.find(h => h.tahun === year);
+        const yearData = crop.harga.find(h => h.tahun == year);
         if (yearData) {
             yearData.harga_minggu.push(price);
         } else {
