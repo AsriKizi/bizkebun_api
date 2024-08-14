@@ -7,7 +7,7 @@ async function addItem(req, res) {
         } = req.body;
         const item = await Item.find();
         var itemId = 0;
-        if (croptype.length != 0) {
+        if (item.length !== 0) {
             itemId = item[item.length - 1].itemId + 1;
         }
         const newItem = new Item({
