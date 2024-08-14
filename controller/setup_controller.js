@@ -44,7 +44,7 @@ async function addCropType(req, res) {
         } = req.body;
         const croptype = await CropType.find();
         let typeId = 0;
-        if (croptype.length != 0) {
+        if (croptype.length !== 0) {
             typeId = croptype[croptype.length - 1].typeId + 1;
         }
         const newCropType = new CropType({
@@ -63,13 +63,14 @@ async function addCropType(req, res) {
     }
 }
 
-async function addPriceToCropType(typeId, year, price) {
+async function addPriceToCropType(req, res) {
     try {
+        const { typeId, year, price } = req.body;
         const crop = await CropType.findOne({ typeId: typeId });
         if (!crop) {
-            throw new Error('CropType not found');
+            return res.status(404).json({ error: 'CropType not found' });
         }
-        const yearData = crop.harga.find(h => h.tahun == year);
+        const yearData = crop.harga.find(h => h.tahun === year);
         if (yearData) {
             yearData.harga_minggu.push(price);
         } else {
@@ -78,10 +79,11 @@ async function addPriceToCropType(typeId, year, price) {
                 harga_minggu: [price]
             });
         }
-        await crop.save();
-        console.log('Price added successfully');
+        const savedCrop = await crop.save();
+        res.status(200).json({ message: 'Price added successfully', savedCrop });
     } catch (error) {
-        console.error('Error adding price:', error);
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
