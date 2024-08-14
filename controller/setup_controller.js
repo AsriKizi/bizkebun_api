@@ -40,15 +40,18 @@ async function getUnit(req, res) {
 async function addCropType(req, res) {
     try {
         const {
-            typeName, duration
+            typeName, duration, harga
         } = req.body;
         const croptype = await CropType.find();
-        var typeId = 0;
-        if (croptype.length != 0) {
+        let typeId = 0;
+        if (croptype.length !== 0) {
             typeId = croptype[croptype.length - 1].typeId + 1;
         }
         const newCropType = new CropType({
-            typeId, typeName, duration
+            typeId,
+            typeName,
+            duration,
+            harga: harga || [] 
         });
         const savedItem = await newCropType.save();
         res.status(200).json({ message: 'Add crop type successful', savedItem });
@@ -57,6 +60,28 @@ async function addCropType(req, res) {
         res.status(500).json({
             error: 'Internal Server Error'
         });
+    }
+}
+
+async function addPriceToCropType(typeId, year, price) {
+    try {
+        const crop = await CropType.findOne({ typeId: typeId });
+        if (!crop) {
+            throw new Error('CropType not found');
+        }
+        const yearData = crop.harga.find(h => h.tahun === year);
+        if (yearData) {
+            yearData.harga_minggu.push(price);
+        } else {
+            crop.harga.push({
+                tahun: year,
+                harga_minggu: [price]
+            });
+        }
+        await crop.save();
+        console.log('Price added successfully');
+    } catch (error) {
+        console.error('Error adding price:', error);
     }
 }
 
@@ -88,6 +113,7 @@ module.exports = {
     addUnit,
     getUnit,
     addCropType,
+    addPriceToCropType,
     getCropType,
     getNews,
 };

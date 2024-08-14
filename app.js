@@ -67,6 +67,7 @@ app.post('/deleteBookingById', authenticateToken, bookingController.deleteBookin
 app.post('/addunit', setupController.addUnit);
 app.get('/unit', setupController.getUnit);
 app.post('/addcroptype', setupController.addCropType);
+app.post('/addpricetocroptype', setupController.addPriceToCropType);
 app.get('/croptype', setupController.getCropType);
 app.get('/news', setupController.getNews);
 
