@@ -67,8 +67,9 @@ async function loginUser(req, res) {
                 res.status(401).json({ error: 'Invalid password' });
             }
             if (requestedUser && isPasswordValid) {
+                const userdetails = UserDetail.findOne({userId: userPhone})
                 const token = auth.generateToken({ userPhone: requestedUser.userPhone, userId: requestedUser._id });
-                res.status(200).json({ message: 'Login successful', requestedUser, token });
+                res.status(200).json({ message: 'Login successful', requestedUser, userdetails, token });
             }
         }
 
