@@ -74,9 +74,24 @@ async function getAllItems(req, res) {
     }
 }
 
+async function getItemsByUser(req, res) {
+    try {
+        const { userId
+        } = req.body;
+        const item = await Item.find({ userId: userId });
+        res.status(200).json({ data: item });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: 'Internal Server Error'
+        });
+    }
+}
+
 module.exports = {
     addItem,
     updateItemQty,
     searchItem,
     getAllItems,
+    getItemsByUser,
 };

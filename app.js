@@ -48,20 +48,22 @@ const authenticateToken = async (req, res, next) => {
 app.post('/register', userController.registerUser);
 app.post('/login', userController.loginUser);
 app.get('/allusers', userController.getAllUsers);
-app.post('/addUserDetails', authenticateToken, userController.addUserDetails);
+app.post('/adduserdetails', authenticateToken, userController.addUserDetails);
 
 // item
 app.post('/additem', authenticateToken, itemController.addItem);
 app.post('/updateitemqty', authenticateToken, itemController.updateItemQty);
 app.post('/searchitem', authenticateToken, itemController.searchItem);
 app.get('/allitems', authenticateToken, itemController.getAllItems);
+app.get('/getitembyuser', authenticateToken, itemController.getItemsByUser);
 
 // booking
 app.post('/addbooking', authenticateToken, bookingController.addBooking);
 app.post('/updatebooking', authenticateToken, bookingController.updateBooking);
 app.post('/getbookingbyitemid', authenticateToken, bookingController.getBookingByItemId);
 app.post('/getbookingbyuserid', authenticateToken, bookingController.getBookingByUserId);
-app.post('/deleteBookingById', authenticateToken, bookingController.deleteBookingById);
+app.post('/deletebookingbyid', authenticateToken, bookingController.deleteBookingById);
+app.post('/getusersitembooking', authenticateToken, bookingController.getUsersItemBooking);
 
 // setup
 app.post('/addunit', setupController.addUnit);
