@@ -18,7 +18,7 @@ async function addItem(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -35,7 +35,7 @@ async function updateItemQty(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -57,7 +57,7 @@ async function searchItem(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -69,7 +69,7 @@ async function getAllItems(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -83,7 +83,7 @@ async function getItemsByUser(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }

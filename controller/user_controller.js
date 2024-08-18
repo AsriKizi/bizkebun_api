@@ -31,7 +31,9 @@ async function addUserDetails(req, res) {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({
+            error: error
+        });
     }
 }
 
@@ -48,7 +50,7 @@ async function registerUser(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -67,7 +69,7 @@ async function loginUser(req, res) {
                 res.status(401).json({ error: 'Invalid password' });
             }
             if (requestedUser && isPasswordValid) {
-                const userdetails = await UserDetail.findOne({userId: userPhone}) || null;
+                const userdetails = await UserDetail.findOne({ userId: userPhone }) || null;
                 const token = auth.generateToken({ userPhone: requestedUser.userPhone, userId: requestedUser._id });
                 res.status(200).json({ message: 'Login successful', requestedUser, userdetails, token });
             }
@@ -75,7 +77,7 @@ async function loginUser(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -87,7 +89,7 @@ async function getAllUsers(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }

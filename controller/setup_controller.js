@@ -20,7 +20,7 @@ async function addUnit(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -32,7 +32,7 @@ async function getUnit(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -51,14 +51,14 @@ async function addCropType(req, res) {
             typeId,
             typeName,
             duration,
-            harga: harga || [] 
+            harga: harga || []
         });
         const savedItem = await newCropType.save();
         res.status(200).json({ message: 'Add crop type successful', savedItem });
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -83,7 +83,9 @@ async function addPriceToCropType(req, res) {
         res.status(200).json({ message: 'Price added successfully', savedCrop });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({
+            error: error
+        });
     }
 }
 
@@ -94,7 +96,7 @@ async function getCropType(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -106,7 +108,7 @@ async function getNews(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }

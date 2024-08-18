@@ -23,7 +23,7 @@ async function addBooking(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -60,7 +60,7 @@ async function updateBooking(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -76,7 +76,9 @@ async function deleteBookingById(req, res) {
         res.status(200).json({ message: 'Booking deleted successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({
+            error: error
+        });
     }
 }
 
@@ -89,7 +91,7 @@ async function getBookingByItemId(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -103,7 +105,7 @@ async function getBookingByUserId(req, res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: 'Internal Server Error'
+            error: error
         });
     }
 }
@@ -120,7 +122,9 @@ async function getUsersItemBooking(req, res) {
         res.status(200).json({ data: bookings });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({
+            error: error
+        });
     }
 
 }
