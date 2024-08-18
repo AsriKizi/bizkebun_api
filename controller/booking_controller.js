@@ -87,6 +87,9 @@ async function getBookingByItemId(req, res) {
         const { itemId
         } = req.body;
         const booking = await Booking.find({ itemId: itemId });
+        if (!booking || booking.length === 0) {
+            return res.status(404).json({ error: 'No bookings found' });
+        }
         res.status(200).json({ data: booking });
     } catch (error) {
         console.error(error);
@@ -101,6 +104,9 @@ async function getBookingByUserId(req, res) {
         const { userId
         } = req.body;
         const booking = await Booking.find({ customerId: userId });
+        if (!booking || booking.length === 0) {
+            return res.status(404).json({ error: 'No bookings found' });
+        }
         res.status(200).json({ data: booking });
     } catch (error) {
         console.error(error);

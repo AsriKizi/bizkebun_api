@@ -55,7 +55,7 @@ app.post('/additem', authenticateToken, itemController.addItem);
 app.post('/updateitemqty', authenticateToken, itemController.updateItemQty);
 app.post('/searchitem', authenticateToken, itemController.searchItem);
 app.get('/allitems', authenticateToken, itemController.getAllItems);
-app.get('/getitembyuser', authenticateToken, itemController.getItemsByUser);
+app.post('/getitembyuser', authenticateToken, itemController.getItemsByUser);
 
 // booking
 app.post('/addbooking', authenticateToken, bookingController.addBooking);
