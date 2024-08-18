@@ -48,7 +48,7 @@ async function searchItem(req, res) {
         const searchitem = await Item.find({ category: itemName });
 
         if (!searchitem || searchitem.length == 0) {
-            res.status(404).json({ message: 'No item found' });
+            return res.status(404).json({ message: 'No item found' });
         }
         if (searchitem) {
             res.json(searchitem);
@@ -81,7 +81,7 @@ async function getItemsByUser(req, res) {
         const item = await Item.find({ userId: userId });
         
         if (!item || item.length == 0) {
-            res.status(404).json({ message: 'No item found' });
+            return res.status(404).json({ message: 'No item found' });
         }
         if (item) {
             res.status(200).json({ data: item });
