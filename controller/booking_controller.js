@@ -1,10 +1,11 @@
 const Booking = require('../model/booking_model');
 const Item = require('../model/item_model');
+const UserDetail = require('../model/userdetail_model');
 
 async function addBooking(req, res) {
     try {
         const {
-            customerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
+            customerId, sellerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
         } = req.body;
         const booking = await Booking.find();
         var bookingId = 0;
@@ -13,7 +14,7 @@ async function addBooking(req, res) {
         }
         const bookingStatus = 0;
         const newBooking = new Booking({
-            bookingId, bookingStatus, customerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
+            bookingId, bookingStatus, customerId, sellerId, itemId, customerName, requestDate, price, pricePerQuantity, pricePerUnit, quantity, quantityUnit, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
         });
         //create booking
         const savedBooking = await newBooking.save();
@@ -99,6 +100,25 @@ async function getBookingByItemId(req, res) {
     }
 }
 
+async function getBookingById(req, res) {
+    try {
+        const { bookingId
+        } = req.body;
+        const booking = await Booking.findById({ bookingId: bookingId });
+        if (!booking || booking.length === 0) {
+            return res.status(404).json({ error: 'No bookings found' });
+        }
+        const item = await Item.findById({ itemId: booking.itemId });
+        const seller = await UserDetail.findById({ userId: item.userId });
+        res.status(200).json({ data: { booking: booking, item: item, seller: seller } });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: error
+        });
+    }
+}
+
 async function getBookingByUserId(req, res) {
     try {
         const { userId
@@ -142,4 +162,5 @@ module.exports = {
     getBookingByUserId,
     deleteBookingById,
     getUsersItemBooking,
+    getBookingById,
 };

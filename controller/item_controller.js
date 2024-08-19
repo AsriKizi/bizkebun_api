@@ -78,8 +78,7 @@ async function getItemsByUser(req, res) {
     try {
         const { userId
         } = req.body;
-        const item = await Item.find({ userId: userId });
-        
+        const item = await Item.find({ userId: userId }).sort({ itemId: -1 });
         if (!item || item.length == 0) {
             return res.status(404).json({ message: 'No item found' });
         }
