@@ -100,25 +100,6 @@ async function getBookingByItemId(req, res) {
     }
 }
 
-async function getBookingById(req, res) {
-    try {
-        const { bookingId
-        } = req.body;
-        const booking = await Booking.findById({ bookingId: bookingId });
-        if (!booking || booking.length === 0) {
-            return res.status(404).json({ error: 'No bookings found' });
-        }
-        const item = await Item.findById({ itemId: booking.itemId });
-        const seller = await UserDetail.findById({ userId: item.userId });
-        res.status(200).json({ data: { booking: booking, item: item, seller: seller } });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: error
-        });
-    }
-}
-
 async function getBookingByUserId(req, res) {
     try {
         const { userId
@@ -139,20 +120,24 @@ async function getBookingByUserId(req, res) {
 async function getUsersItemBooking(req, res) {
     try {
         const { userId } = req.body;
-        const items = await Item.find({ userId: userId });
-        if (!items || items.length === 0) {
-            return res.status(404).json({ error: 'No items found for this user' });
+        const bookings = await Booking.find({ customerId: userId });
+        if (!bookings || bookings.length === 0) {
+            return res.status(404).json({ error: 'No bookings found' });
         }
-        const itemIds = items.map(item => item.itemId);
-        const bookings = await Booking.find({ itemId: { $in: itemIds } });
-        res.status(200).json({ data: bookings });
+        const bookingDetails = await Promise.all(bookings.map(async (booking) => {
+            const item = await Item.findOne({ itemId: booking.itemId });
+            const seller = await UserDetail.findOne({ userId: booking.sellerId });
+            return {
+                booking,
+                item,
+                seller
+            };
+        }));
+        res.status(200).json({ data: bookingDetails });
     } catch (error) {
         console.error(error);
-        res.status(500).json({
-            error: error
-        });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-
 }
 
 module.exports = {
@@ -162,5 +147,4 @@ module.exports = {
     getBookingByUserId,
     deleteBookingById,
     getUsersItemBooking,
-    getBookingById,
 };

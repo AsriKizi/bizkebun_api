@@ -64,7 +64,6 @@ app.post('/getbookingbyitemid', authenticateToken, bookingController.getBookingB
 app.post('/getbookingbyuserid', authenticateToken, bookingController.getBookingByUserId);
 app.post('/deletebookingbyid', authenticateToken, bookingController.deleteBookingById);
 app.post('/getusersitembooking', authenticateToken, bookingController.getUsersItemBooking);
-app.post('/getbookingbyid', authenticateToken, bookingController.getBookingById);
 
 // setup
 app.post('/addunit', setupController.addUnit);
