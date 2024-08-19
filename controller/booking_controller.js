@@ -102,23 +102,6 @@ async function getBookingByItemId(req, res) {
 
 async function getBookingByUserId(req, res) {
     try {
-        const { userId
-        } = req.body;
-        const booking = await Booking.find({ customerId: userId });
-        if (!booking || booking.length === 0) {
-            return res.status(404).json({ error: 'No bookings found' });
-        }
-        res.status(200).json({ data: booking });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({
-            error: error
-        });
-    }
-}
-
-async function getUsersItemBooking(req, res) {
-    try {
         const { userId } = req.body;
         const bookings = await Booking.find({ customerId: userId });
         if (!bookings || bookings.length === 0) {
@@ -138,6 +121,25 @@ async function getUsersItemBooking(req, res) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+}
+
+async function getUsersItemBooking(req, res) {
+    try {
+        const { userId } = req.body;
+        const items = await Item.find({ userId: userId });
+        if (!items || items.length === 0) {
+            return res.status(404).json({ error: 'No items found for this user' });
+        }
+        const itemIds = items.map(item => item.itemId);
+        const bookings = await Booking.find({ itemId: { $in: itemIds } });
+        res.status(200).json({ data: bookings });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: error
+        });
+    }
+
 }
 
 module.exports = {
