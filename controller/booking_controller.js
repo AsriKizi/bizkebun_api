@@ -132,14 +132,23 @@ async function getUsersItemBooking(req, res) {
         }
         const itemIds = items.map(item => item.itemId);
         const bookings = await Booking.find({ itemId: { $in: itemIds } });
-        res.status(200).json({ data: bookings });
+        if (!bookings || bookings.length === 0) {
+            return res.status(404).json({ error: 'No bookings found for these items' });
+        }
+        const bookingDetails = await Promise.all(bookings.map(async (booking) => {
+            const item = items.find(item => item.itemId === booking.itemId);
+            const customer = await UserDetail.findOne({ userId: booking.customerId });
+            return {
+                booking,
+                item,
+                customer
+            };
+        }));
+        res.status(200).json({ data: bookingDetails });
     } catch (error) {
         console.error(error);
-        res.status(500).json({
-            error: error
-        });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-
 }
 
 module.exports = {
