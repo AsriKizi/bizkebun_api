@@ -55,7 +55,7 @@ async function updateBooking(req, res) {
             }
         } else {
             if (updateBooking) {
-                res.status(201).json({ message: 'Update booking successful', updateBooking, reason: reason });
+                res.status(200).json({ message: 'Update booking successful', updateBooking, reason: reason });
             }
         }
     } catch (error) {
