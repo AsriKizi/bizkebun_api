@@ -31,10 +31,10 @@ async function addBooking(req, res) {
 
 async function updateBooking(req, res) {
     try {
-        const { bookingId, bookingStatus, pricePerQuantityOffer, pricePerUnitOffer, reason,
+        const { bookingId, bookingStatus, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason,
         } = req.body;
         const updateBooking = await Booking.findOneAndUpdate({ bookingId: bookingId },
-            { $set: { bookingStatus, pricePerQuantityOffer, pricePerUnitOffer, reason, } },
+            { $set: { bookingStatus, priceOffer, pricePerQuantityOffer, pricePerUnitOffer, reason, } },
             { new: true });
 
         if (bookingStatus == 1) {
