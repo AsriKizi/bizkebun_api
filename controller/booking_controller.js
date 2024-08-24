@@ -68,10 +68,10 @@ async function updateBooking(req, res) {
 
 async function deleteBookingById(req, res) {
     try {
-        const { itemId } = req.body;
-        const deletedBooking = await Booking.findByIdAndDelete(itemId);
+        const { bookingId } = req.body;
+        const deletedBooking = await Booking.deleteOne({ bookingId: bookingId });
 
-        if (!deletedBooking) {
+        if (deletedBooking.deletedCount === 0) {
             return res.status(404).json({ error: 'Booking not found' });
         }
         res.status(200).json({ message: 'Booking deleted successfully' });
