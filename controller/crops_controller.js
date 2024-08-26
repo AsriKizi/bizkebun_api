@@ -7,11 +7,12 @@ async function addCrop(req, res) {
         } = req.body;
         const crop = await Crops.find();
         var cropId = 0;
+        var harvestQuantity = 0;
         if (crop.length !== 0) {
             cropId = crop[crop.length - 1].cropId + 1;
         }
         const newCrop = new Crops({
-            userId, cropId, cropType, cropStatus, unit, quantity, cropDate, harvestDate, negeri, weekNumber,
+            userId, cropId, cropType, cropStatus, unit, quantity, harvestQuantity, cropDate, harvestDate, negeri, weekNumber,
         });
         const savedItem = await newCrop.save();
         res.status(200).json({ message: 'Add crop successful', savedItem });
