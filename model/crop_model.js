@@ -5,11 +5,13 @@ const cropSchema = new mongoose.Schema({
     userId: { type: String, required: true },
     cropType: Number,
     cropStatus: Number,
-    requestDate: String,
     unit: Number,
     quantity: Number,
+    harvestQuantity: Number,
     cropDate: String,
     harvestDate: String,
+    negeri: Number,
+    weekNumber: Number,
 });
 
 module.exports = mongoose.model('Crops', cropSchema)

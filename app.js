@@ -12,6 +12,7 @@ const bookingController =
     require('./controller/booking_controller');
 const auth = require('./controller/auth_controller');
 const setupController = require('./controller/setup_controller');
+const cropCrontroller = require('./controller/crops_controller');
 
 // db connection
 const app = express();
@@ -64,6 +65,13 @@ app.post('/getbookingbyitemid', authenticateToken, bookingController.getBookingB
 app.post('/getbookingbyuserid', authenticateToken, bookingController.getBookingByUserId);
 app.post('/deletebookingbyid', authenticateToken, bookingController.deleteBookingById);
 app.post('/getusersitembooking', authenticateToken, bookingController.getUsersItemBooking);
+
+// crops
+app.post('/addcrop', authenticateToken, cropCrontroller.addCrop);
+app.get('/getallcrops', authenticateToken, cropCrontroller.getAllCrops);
+app.post('/getcropsbyuser', authenticateToken, cropCrontroller.getCropsByUser);
+app.post('/updatecropsstatus', authenticateToken, cropCrontroller.updateCropStatus);
+app.post('/updatecropsharvest', authenticateToken, cropCrontroller.updateCropHarvest);
 
 // setup
 app.post('/addunit', setupController.addUnit);

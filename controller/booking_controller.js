@@ -87,7 +87,7 @@ async function getBookingByItemId(req, res) {
     try {
         const { itemId
         } = req.body;
-        const booking = await Booking.find({ itemId: itemId });
+        const booking = await Booking.find({ itemId: itemId }).sort({ bookingId: -1 });
         if (!booking || booking.length === 0) {
             return res.status(404).json({ error: 'No bookings found' });
         }
@@ -103,7 +103,7 @@ async function getBookingByItemId(req, res) {
 async function getBookingByUserId(req, res) {
     try {
         const { userId } = req.body;
-        const bookings = await Booking.find({ customerId: userId });
+        const bookings = await Booking.find({ customerId: userId }).sort({ bookingId: -1 });
         if (!bookings || bookings.length === 0) {
             return res.status(404).json({ error: 'No bookings found' });
         }
@@ -126,7 +126,7 @@ async function getBookingByUserId(req, res) {
 async function getUsersItemBooking(req, res) {
     try {
         const { userId } = req.body;
-        const items = await Item.find({ userId: userId });
+        const items = await Item.find({ userId: userId }).sort({ bookingId: -1 });
         if (!items || items.length === 0) {
             return res.status(404).json({ error: 'No items found for this user' });
         }
