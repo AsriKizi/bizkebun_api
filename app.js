@@ -20,10 +20,16 @@ const port = process.env.PORT || 3000;
 
 const mongoURI =
     'mongodb+srv://asrikizi:dev_BizKebun@bizkebun.yqvxi0r.mongodb.net/bizkebun?retryWrites=true&w=majority';
-mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+// mongoose.connect(mongoURI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+try {
+     mongoose.connect(mongoURI, {});
+    console.log('Database connected successfully');
+} catch(error) {
+    console.log("error while connecting to database",error);
+}
 
 // app use
 app.use(express.json());
